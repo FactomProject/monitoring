@@ -1,10 +1,12 @@
-import checks
-
+import datetime
 import json
-import requests
 import sys
 import time
 import uuid
+
+import requests
+
+import checks
 
 
 SLACK_WEBHOOK = "https://hooks.slack.com/services/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"
@@ -147,6 +149,6 @@ def _format_timestamp(ts):
     if ts is None:
         return ""
 
-    dt = datetime.utcfromtimestamp(ts)
+    dt = datetime.datetime.utcfromtimestamp(ts)
     return dt.strftime("%Y-%m-%dT%H:%M:%S")
 
