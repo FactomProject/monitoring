@@ -36,9 +36,9 @@ def run(previous):
     elif now - previous["timestamp"] < config.END_OF_BLOCK_SECS:
         return _skip(previous, now)
     elif previous["heights"]["leader"] == heights["leader"]:
-        return _follower_stalled(previous, now, heights)
-    elif previous["heights"]["follower"] == heights["follower"]:
         return _leader_stalled(previous, now, heights)
+    elif previous["heights"]["follower"] == heights["follower"]:
+        return _follower_stalled(previous, now, heights)
     else:
         return _success(previous, now, heights)
 
