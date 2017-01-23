@@ -5,7 +5,7 @@ import time
 
 
 # address to connect the follower to
-FOLLOWER_ADDRESS = "52.19.99.236:8180"
+FOLLOWER_ADDRESS = "52.19.99.236:8088"
 
 
 MIN_SECS_BETWEEN_RUNS = 10 * 60  # 10 minutes
