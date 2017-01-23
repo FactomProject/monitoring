@@ -43,6 +43,8 @@ def _log_success(previous, current):
 
     incident_key = previous.get("incident_key")
     if incident_key:
+        prev_run = _format_timestamp(previous["timestamp"])
+        curr_run = _format_timestamp(current["timestamp"])
         _send_pagerduty_event(
             "resolve",
             "Network resumed operation.",
