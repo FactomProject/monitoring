@@ -44,6 +44,8 @@ def _log_success(previous, current):
     height = current["heights"]["leader"]
     prev_run = _format_timestamp(previous["timestamp"])
     curr_run = _format_timestamp(current["timestamp"])
+    incident_key = previous["incident_key"] or str(uuid.uuid4())
+    current["incident_key"] = incident_key
     _trigger_pagerduty_alert(
         "Factom network stalled at {}".format(height),
         {
