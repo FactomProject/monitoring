@@ -2,6 +2,7 @@ import checks
 
 import json
 import requests
+import sys
 import time
 
 
@@ -21,6 +22,7 @@ def handle_result(previous, current):
     elif current["outcome"] == checks.FOLLOWER_ERROR:
         _log_follower_error()
         _notify_follower_error()
+        sys.exit(-1)
     elif current["outcome"] == checks.FOLLOWER_STALLED:
         _log_follower_stalled(previous, current)
         _notify_follower_stalled(previous, current)
