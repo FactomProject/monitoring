@@ -65,7 +65,7 @@ def _skip(previous, now):
 
 
 def _follower_stalled(previous, now, heights):
-    if previous["result"] == SUCCESS:
+    if previous["result"] != FOLLOWER_STALLED:
         error(
             "Follower stalled at {}".format(heights["follower"]),
             "First seen at {}".format(_format_ts(previous["timestamp"]))
@@ -81,7 +81,7 @@ def _follower_stalled(previous, now, heights):
 
 def _leader_stalled(previous, now, heights):
     incident_key = previous.get("incident_key")
-    if previous["result"] == SUCCESS:
+    if previous["result"] != LEADER_STALLED:
         error(
             "Network stalled at {}".format(heights["leader"]),
             "First seen: {} (UTC)".format(_format_ts(previous["timestamp"])),
@@ -121,7 +121,7 @@ def _success(previous, now, heights):
         msg = "Leader advanced from {} to {}".format(
             previous["heights"]["leader"],
             heights["leader"]
-        ),
+        )
         info(msg, "Resolving PagerDuty incident.")
         resolve_pagerduty_incident(
             msg,
