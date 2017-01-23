@@ -22,7 +22,7 @@ def info(*messages):
     Logs the message and sends the output to Slack as an information.
     """
     log(*messages)
-    _post_to_slack(messages, "good", "@here")
+    _post_to_slack(messages, "good", "<!here>")
 
 
 def error(*messages):
@@ -30,7 +30,7 @@ def error(*messages):
     Logs the message and sends the output to Slack as an error.
     """
     log(*messages)
-    _post_to_slack(messages, "danger", "@everyone")
+    _post_to_slack(messages, "danger", "<!everyone>")
 
 
 def trigger_pagerduty_incident(message, details, incident_key=None):
