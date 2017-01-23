@@ -38,7 +38,7 @@ def save_result(result, results_path):
     Save current result to the file, so it can be retrieved during
     the next run.
     """
-    if result["outcome"] == SKIPPED:
+    if result["outcome"] == SKIPPED or result["outcome"] == FIRST_RUN:
         return  # do not overwrite the results, we'll wait for the next run
 
     with open(results_path, "w") as results_file:
@@ -65,6 +65,8 @@ def run(previous):
             outcome = NETWORK_STALLED
         elif previous["heights"]["follower"] == heights["follower"]:
             outcome = FOLLOWER_STALLED
+        else:
+            outcome = SUCCESS
 
     return {
         "outcome": outcome,
