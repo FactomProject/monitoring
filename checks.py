@@ -57,13 +57,13 @@ def run(previous):
         outcome = FOLLOWER_ERROR
         heights = None
     else:
-        if previous_result is None:
+        if previous is None:
             outcome = FIRST_RUN
         elif now - previous["timestamp"] < MIN_SECS_BETWEEN_RUNS:
             outcome = SKIPPED
-        elif previous_result["heights"]["leader"] == heights["leader"]:
+        elif previous["heights"]["leader"] == heights["leader"]:
             outcome = NETWORK_STALLED
-        elif previous_result["heights"]["follower"] == heights["follower"]:
+        elif previous["heights"]["follower"] == heights["follower"]:
             outcome = FOLLOWER_STALLED
 
     return {
