@@ -1,12 +1,10 @@
 """
 Various checks performed against the network to verify it is running correctly.
 """
+import importlib
 
-import monitoring.steps.heights
-import monitoring.steps.transactions
-
-ALL_STEPS = [monitoring.steps.heights,
-             monitoring.steps.transactions]
+ALL_STEPS = ['monitoring.steps.heights',
+             'monitoring.steps.transactions']
 
 
 def run_all(previous):
@@ -16,9 +14,12 @@ def run_all(previous):
     current = {}
     success = True
     for step in ALL_STEPS:
-        module_previous = previous.get(step.NAME)
-        success, result = step.run(module_previous)
-        current[step.NAME] = result
+        module = importlib.import_module(step)
+        step_name = getattr(module, "NAME")
+        step_run = getattr(module, "run")
+        module_previous = previous.get(step_name)
+        success, result = step_run(module_previous)
+        current[step_name] = result
         if not success:
             break
     return success, current
