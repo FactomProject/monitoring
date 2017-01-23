@@ -40,21 +40,21 @@ def _log_success(previous, current):
     print "All checks passed."
     print "Current leader height: {}".format(current["heights"]["leader"])
     print "Current follower height: {}".format(current["heights"]["follower"])
-    # TODO remove
-    height = current["heights"]["leader"]
-    prev_run = _format_timestamp(previous["timestamp"])
-    curr_run = _format_timestamp(current["timestamp"])
-    incident_key = previous.get("incident_key") or str(uuid.uuid4())
-    current["incident_key"] = incident_key
-    _trigger_pagerduty_alert(
-        "Factom network stalled at {}".format(height),
-        {
-            "heights": current["heights"],
-            "previous_run": prev_run,
-            "current_run": curr_run
-        },
-        incident_key
-    )
+
+    incident_key = previous.get("incident_key")
+    if incident_key:
+        _send_pagerduty_event(
+            "resolve",
+            "Network resumed operation.",
+            {
+                "previous_heights": previous["heights"],
+                "current_heights": current["heights"],
+                "previous_run": prev_run,
+                "current_run": curr_run
+            },
+            incident_key
+        )
+
 
 def _log_first_run(current):
     print "First run, skipping checks."
@@ -111,7 +111,8 @@ def _notify_network_stalled(previous, current):
     ])
     incident_key = previous.get("incident_key") or str(uuid.uuid4())
     current["incident_key"] = incident_key
-    _trigger_pagerduty_alert(
+    _send_pagerduty_event(
+        "trigger",
         "Factom network stalled at {}".format(height),
         {
             "heights": current["heights"],
@@ -132,17 +133,15 @@ def _post_to_slack(lines):
     requests.post(SLACK_WEBHOOK, json.dumps(message))
 
 
-def _trigger_pagerduty_alert(description, details, incident_key):
+def _send_pagerduty_event(event_type, description, details, incident_key):
     message = {
-        "event_type": "trigger",
-        "client": "jenkins",
+        "event_type": event_type,
+        "client": "monitoring scripts",
         "service_key": PAGERDUTY_KEY,
         "description": description,
-        "details": details
+        "details": details,
+        "incident_key": incident_key
     }
-
-    if incident_key:
-        message["incident_key"] = incident_key
 
     requests.post(PAGERDUTY_URL, json.dumps(message))
 
