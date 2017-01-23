@@ -71,7 +71,7 @@ def _follower_stalled(previous, now, heights):
             "First seen at {}".format(_format_ts(previous["timestamp"]))
         )
     else:
-        log("Follower still at {}", heights["follower"])
+        log("Follower still at: {}".format(heights["follower"]))
     return False, {
         "timestamp": now,
         "heights": heights,
