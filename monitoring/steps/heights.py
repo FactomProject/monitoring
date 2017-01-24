@@ -141,6 +141,8 @@ def _success(previous, now, heights):
 
 def _get_heights():
     output = _get_cli_output()
+    if output is None:
+        return None
     return _parse_cli_output(output)
 
 
