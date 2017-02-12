@@ -12,6 +12,10 @@ from monitoring.notifications import (
     trigger_pagerduty_incident, resolve_pagerduty_incident
 )
 
+
+NAME = "explorer"
+
+
 SUCCESS = "success"
 EXPLORER_OFFLINE = "explorer offline"
 EXPLORER_STALLED = "explorer stalled"
