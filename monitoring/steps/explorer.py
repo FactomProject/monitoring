@@ -42,8 +42,13 @@ def run(previous):
 
 def _get_height():
     response = requests.get("http://explorer.factom.org/height")
-    response.raise_for_status()
-    return response.text
+    try:
+        response.raise_for_status()
+    except requests.HTTPError as exception:
+        log(exception)
+        return None
+    else:
+        return response.text
 
 
 def _explorer_offline(now, previous):
