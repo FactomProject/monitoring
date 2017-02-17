@@ -139,7 +139,7 @@ def _leader_stalled(previous, now, heights):
 
 
 def _success(previous, now, heights):
-    if previous["result"] == FOLLOWER_STALLED:
+    if previous["result"] in [FOLLOWER_STALLED, FOLLOWER_REVERSED]:
         info(
             "Follower advanced from {} to {}".format(
                 previous["heights"]["follower"],
