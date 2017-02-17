@@ -18,6 +18,7 @@ NAME = "heights"
 SUCCESS = "success"
 FOLLOWER_STALLED = "follower stalled"
 LEADER_STALLED = "leader stalled"
+FOLLOWER_REVERSED = "follower reversed"
 
 
 def run(previous):
@@ -30,17 +31,21 @@ def run(previous):
     heights = _get_heights()
 
     if heights is None:
-        return _no_follower(previous)
+        result = _no_follower(previous)
     elif previous is None:
-        return _first_run(now, heights)
+        result = _first_run(now, heights)
     elif now - previous["timestamp"] < config.END_OF_BLOCK_SECS:
-        return _skip(previous, now)
+        result = _skip(previous, now)
     elif previous["heights"]["leader"] == heights["leader"]:
-        return _leader_stalled(previous, now, heights)
+        result = _leader_stalled(previous, now, heights)
     elif previous["heights"]["follower"] == heights["follower"]:
-        return _follower_stalled(previous, now, heights)
+        result = _follower_stalled(previous, now, heights)
+    elif previous["heights"]["follower"] > heights["follower"]:
+        result = _follower_reversed(previous, now, heights)
     else:
-        return _success(previous, now, heights)
+        result = _success(previous, now, heights)
+
+    return result
 
 
 def _no_follower(previous):
@@ -76,6 +81,31 @@ def _follower_stalled(previous, now, heights):
         "timestamp": now,
         "heights": heights,
         "result": FOLLOWER_STALLED
+    }
+
+
+def _follower_reversed(previous, now, heights):
+    if previous["result"] not in [FOLLOWER_STALLED, FOLLOWER_REVERSED]:
+        error(
+            "Follower reversed from {} to {}".format(
+                previous["heights"]["follower"], heights["follower"]
+            )
+        )
+    else:
+        log(
+            "Follower catching up with leader.",
+            "Leader height: {}".format(heights["leader"]),
+            "Current follower height: {}".format(heights["follower"]),
+            "Max follower height: {}".format(previous["heights"]["follower"])
+        )
+    return False, {
+        "timestamp": now,
+        "heights": {
+            "leader": heights["leader"],
+            # keep previous follower height until it goes forward
+            "follower": previous["heights"]["follower"]
+        },
+        "result": FOLLOWER_REVERSED
     }
 
 
