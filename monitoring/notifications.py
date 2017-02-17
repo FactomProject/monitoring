@@ -30,7 +30,7 @@ def error(*messages):
     Logs the message and sends the output to Slack as an error.
     """
     log(*messages)
-    _post_to_slack(messages, "danger", "<!everyone>")
+    _post_to_slack(messages, "danger", "<!channel>")
 
 
 def trigger_pagerduty_incident(message, details, incident_key=None):
