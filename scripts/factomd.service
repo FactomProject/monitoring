@@ -1,0 +1,17 @@
+[Unit]
+Description=Factom Network node
+StartLimitInterval=60
+StartLimitBurst=5
+OnFailure=slack-notifier@%n.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/factomd -startdelay=10
+RestartSec=10
+Restart=on-failure
+User=ubuntu
+
+
+[Install]
+WantedBy=multi-user.target
+

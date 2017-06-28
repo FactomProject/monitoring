@@ -1,0 +1,8 @@
+[Unit]
+Description=Service for sending notifications to Factom Slack
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/slack-notification.sh %I danger "<!here> Service failure, attempting restart"
+
