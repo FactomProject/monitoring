@@ -36,19 +36,38 @@ def run(previous):
         return _skip(previous, now)
     elif previous["height"] == height:
         return _explorer_stalled(previous, now, height)
-    else:
-        return _success(previous, now, height)
+
+    return _success(previous, now, height)
 
 
 def _get_height():
-    response = requests.get("http://explorer.factom.org/height")
+    response = _get_height_response()
+    if not response:
+        return None
+
+    if not response.get("data") or len(response["data"]) != 1 \
+            or not response["data"][0].get("height"):
+        log("Error parsing explorer response:", response)
+        return None
+
+    return response["data"][0]["height"]
+
+
+def _get_height_response():
+    response = requests.get(
+        "{}dblocks?limit=1&offset=0".format(config.EXPLORER_APIPLUS_URL),
+        headers={
+            "Content-Type": "application/json",
+            "x-3scale-proxy-secret-token": config.X_3SCALE_SECRET_PROXY_TOKEN
+        }
+    )
     try:
         response.raise_for_status()
     except requests.HTTPError as exception:
         log(exception)
         return None
     else:
-        return response.text
+        return response.json()
 
 
 def _explorer_offline(now, previous):
