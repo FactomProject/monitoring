@@ -30,4 +30,4 @@ PAGERDUTY_KEY = "a0eba9950e1849cd9adde9b0b2598633"
 X_3SCALE_SECRET_PROXY_TOKEN = "AX8Bj32w4SkgPBZbvcb6jm2McC2cTdYF"
 
 # Base URL for API+ instance used by Explorer
-EXPLORER_APIPLUS_URL = "https://apiplus-api-prod-mainnet.factom.com/v2/"
+EXPLORER_APIPLUS_URL = "https://apiplus-api-prod-mainnet.factom.com/"
