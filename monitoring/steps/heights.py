@@ -177,7 +177,7 @@ def _get_heights():
 
 
 def _get_cli_output():
-    address = config.FOLLOWER_ADDRESS1
+    address = config.FOLLOWER_ADDRESS
     cmd = ["factom-cli", "-s", address, "get", "heights"]
     try:
         output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
