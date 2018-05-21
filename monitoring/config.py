@@ -5,9 +5,8 @@ Configuration values.
 # the location of the file which keeps previously recorded heights
 RESULTS_PATH = "monitoring_results.json"
 
-# addresses of follower instances used in various checks
-FOLLOWER_ADDRESS1 = "52.19.99.236:8088"
-FOLLOWER_ADDRESS2 = "52.19.99.236:8188"
+# address of follower instance used in various checks
+FOLLOWER_ADDRESS = "localhost:8088"
 
 # interval for end-of-block calculations performed by servers
 END_OF_BLOCK_SECS = 10 * 60  # 10 minutes

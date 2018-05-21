@@ -19,7 +19,10 @@ def main():
     monitoring.results.save_result(current)
 
     if not success:
+        print "Job failed"
         sys.exit(-1)
+
+    print "Job finished successfully"
 
 
 if __name__ == "__main__":
