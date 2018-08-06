@@ -45,20 +45,19 @@ def _get_height():
     if not response:
         return None
 
-    if not response.get("data") or len(response["data"]) != 1 \
-            or not response["data"][0].get("height"):
+    if not response.get("height"):
         log("Error parsing explorer response:", response)
         return None
 
-    return response["data"][0]["height"]
+    return response["height"]
 
 
 def _get_height_response():
     response = requests.get(
-        "{}dblocks?limit=1&offset=0".format(config.EXPLORER_APIPLUS_URL),
+        "{}health?height=true".format(config.EXPLORER_APIPLUS_URL),
         headers={
             "Content-Type": "application/json",
-            "x-3scale-proxy-secret-token": config.X_3SCALE_SECRET_PROXY_TOKEN
+            "factom-provider-token": config.FACTOM_PROVIDER_TOKEN
         }
     )
     try:
