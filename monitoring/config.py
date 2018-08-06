@@ -26,8 +26,8 @@ PAGERDUTY_URL = (
 # PagerDuty API key
 PAGERDUTY_KEY = "a0eba9950e1849cd9adde9b0b2598633"
 
-# 3Scale token
-X_3SCALE_SECRET_PROXY_TOKEN = "AX8Bj32w4SkgPBZbvcb6jm2McC2cTdYF"
+# Factom provider token
+FACTOM_PROVIDER_TOKEN = "4prN0QVVO2f3UdIFDlgUo98H82tO6UDdShzNNwLBf5J2nIBa"
 
 # Base URL for API+ instance used by Explorer
 EXPLORER_APIPLUS_URL = "https://apiplus-api-prod-mainnet.factom.com/"

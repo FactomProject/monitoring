@@ -57,7 +57,7 @@ def _get_height_response():
         "{}health?height=true".format(config.EXPLORER_APIPLUS_URL),
         headers={
             "Content-Type": "application/json",
-            "x-3scale-proxy-secret-token": config.X_3SCALE_SECRET_PROXY_TOKEN
+            "factom-provider-token": config.FACTOM_PROVIDER_TOKEN
         }
     )
     try:
