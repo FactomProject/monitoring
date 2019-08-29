@@ -4,7 +4,7 @@ Various checks performed against the network to verify it is running correctly.
 import importlib
 
 ALL_STEPS = ['monitoring.steps.heights',
-             'monitoring.steps.explorer',
+             #'monitoring.steps.explorer',
              'monitoring.steps.transactions']
 
 
